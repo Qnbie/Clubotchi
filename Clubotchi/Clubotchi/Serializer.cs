@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
-using System.Xml.Serialization;
 using System.Linq;
+using System.Text.Json;
 
 namespace Clubotchi
 {
@@ -10,13 +10,13 @@ namespace Clubotchi
     {
         public void saveGame(Character character)
         {
-
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Character>));
-            var path = Directory.GetCurrentDirectory() + "//SavedCharacter.xml";
+            //read the saved games
+            var path = Directory.GetCurrentDirectory() + "//SavedCharacter.json";
             StreamReader reader = new StreamReader(path);
-            List<Character> characters = (List<Character>)xmlSerializer.Deserialize(reader);
+            List<Character> characters = JsonSerializer.Deserialize<List<Character>>(reader.ReadToEnd());
             reader.Close();
 
+            //update or add the saved game
             bool findOne = false;
             foreach(Character search in characters)
             {
@@ -27,34 +27,39 @@ namespace Clubotchi
                 }
             }
             if (!findOne) characters.Add(character);
-
+            
+            //write back to the file
+            string saveJson = JsonSerializer.Serialize<List<Character>>(characters);
             StreamWriter writer = new StreamWriter(path);
-
-            xmlSerializer.Serialize(writer, character);
+            writer.Write(saveJson);
             writer.Close();
         }
+
         public Character loadGame(string name)
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Character>));
-            var path = Directory.GetCurrentDirectory() + "//SavedCharacter.xml";
+            //read the file
+            var path = Directory.GetCurrentDirectory() + "//SavedCharacter.json";
             StreamReader file = new StreamReader(path);
-            List<Character> characters = (List<Character>)xmlSerializer.Deserialize(file);
+            List<Character> characters = JsonSerializer.Deserialize<List<Character>>(file.ReadToEnd());
             file.Close();
-
+            
+            //search for the character with the given name
             foreach(Character character in characters)
             {
                 if (character.name == name) return character;
             }
-
             return null;
         }
+
         public List<Action> actions(RacesEnum race) 
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Action>));
+            //read the file
             var path = Directory.GetCurrentDirectory() + "//SavedCharacter.xml";
             StreamReader reader = new StreamReader(path);
-            List<Action> tmp = (List<Action>)xmlSerializer.Deserialize(reader);
+            List<Action> tmp = JsonSerializer.Deserialize<List<Action>>(reader.ReadToEnd());
             reader.Close();
+
+            //choose for the given class
             List<Action> actions = new List<Action>();
             foreach(Action action in tmp)
             {
