@@ -1,4 +1,6 @@
-﻿namespace Clubotchi
+﻿using System.Collections.Generic;
+
+namespace Clubotchi
 {
     internal class Action
     {

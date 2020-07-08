@@ -5,7 +5,7 @@ namespace Clubotchi
 {
     class MainMenu
     {
-        static private GameController mainGameController { set; get; }
+        static private GameController mainGameController = new GameController();
 
         static void Main(string[] args)
         {
@@ -21,38 +21,31 @@ namespace Clubotchi
                         character = characterCretion();
                         break;
                     case "2":
-                        character = loadCharacter();
-                        break;
-                    case "3":
                         System.Environment.Exit(1);
                         break;
                 }
 
                 if (character != null) 
                 {
-                    mainGameController = new GameController(character);
+                    mainGameController.character = character;
                     mainGameController.start();
                 }
                 menu = showMenu();
             }
         }
 
-        private static Character loadCharacter()
-        {
-            Console.WriteLine("Give me a name of a character:");
-            var name = Console.ReadLine();
-            return mainGameController.loadGame(name);
-        }
-
-
-
         private static Character characterCretion()
         {
-            Console.WriteLine("Choose your character:");
-            var values = Enum.GetValues(typeof(RacesEnum));
-            Console.WriteLine("1: Camel");
-            Console.WriteLine("2: Pinguin");
-            var race = Console.ReadLine();
+            //race picker
+            string race;
+            do
+            {
+                Console.WriteLine("Choose your character:");
+                var values = Enum.GetValues(typeof(RacesEnum));
+                Console.WriteLine("1: Camel");
+                Console.WriteLine("2: Pinguin");
+                race = Console.ReadLine();
+            } while (race != "1" && race!= "2");
             Console.WriteLine("Give a name to your pet: ");
             var name = Console.ReadLine();
             if (race == "1") return new Camel(name);
@@ -70,11 +63,10 @@ namespace Clubotchi
                 }
                 else Console.WriteLine("Choose a valid option:");
                 Console.WriteLine("1 - New Game");
-                Console.WriteLine("2 - Load Game");
-                Console.WriteLine("3 - Exit Game");
+                Console.WriteLine("2 - Exit Game");
 
                 string menu = Console.ReadLine();
-                if (menu != "1" && menu != "2" && menu != "3") valid = false;
+                if (menu != "1" && menu != "2") valid = false;
                 else return menu;
             } while (true);
 

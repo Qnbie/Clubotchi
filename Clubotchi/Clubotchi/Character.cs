@@ -8,11 +8,13 @@ namespace Clubotchi
         public RacesEnum race { set; get; }
         public List<Action> actions { set; get; }
 
-        private int hunger { set; get; }
-        private int fatigue { set; get; }
-        private int boredome { set; get; }
-    
-        private int mood { set; get; }
+        protected int hunger { set; get; }
+        protected int fatigue { set; get; }
+        protected int boredome { set; get; }
+
+        protected int mood { set; get; }
+
+        public Character() { }
 
         public Character(string name)
         {
@@ -23,18 +25,16 @@ namespace Clubotchi
             var index = 0;
             foreach(Action action in actions)
             {
-                System.Console.WriteLine($"{0}: {1}", index, action.name);
+                System.Console.WriteLine($"{index}: {action.name}");
                 index++;
             }
-            System.Console.WriteLine($"{0}: Save Game", index);
-            System.Console.WriteLine($"{0}: Exit Game", index + 1);
+            System.Console.WriteLine($"{index}: Exit Game");
         }
         public int doAction(List<int> actions) { 
             foreach(int actionIndex in actions)
             {
-                if (actionIndex == actions.Count) return 1;
-                else if (actionIndex == actions.Count + 1) return 2;
-                else if (actionIndex == actions.Count + 1) error(actionIndex);
+                if (actionIndex == this.actions.Count) return 1;
+                else if (actionIndex > this.actions.Count) error(actionIndex);
                 else
                 {
                     this.hunger += this.actions[actionIndex].hunger;
