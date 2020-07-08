@@ -7,6 +7,7 @@ namespace Clubotchi
     {
         static private GameController mainGameController = new GameController();
 
+        //A főmenü
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to Clubotchi!");
@@ -33,10 +34,10 @@ namespace Clubotchi
                 menu = showMenu();
             }
         }
-
+        //A karakter kreáló modu
         private static Character characterCretion()
         {
-            //race picker
+            //A karakter fajának megadása
             string race;
             do
             {
@@ -46,15 +47,18 @@ namespace Clubotchi
                 Console.WriteLine("2: Pinguin");
                 race = Console.ReadLine();
             } while (race != "1" && race!= "2");
+            
+            //A karakter nevének megadása
             Console.WriteLine("Give a name to your pet: ");
             var name = Console.ReadLine();
             if (race == "1") return new Camel(name);
             else return new Pinguin(name);
         }
 
+        //A főmenü kírása
         private static string showMenu()
         {
-            bool valid = true;
+            bool valid = true;  //ezzel a változóval jelezzük hogy a felhasználó létező menüpontot választott e
             do
             {
                 if (valid)
@@ -64,7 +68,6 @@ namespace Clubotchi
                 else Console.WriteLine("Choose a valid option:");
                 Console.WriteLine("1 - New Game");
                 Console.WriteLine("2 - Exit Game");
-
                 string menu = Console.ReadLine();
                 if (menu != "1" && menu != "2") valid = false;
                 else return menu;

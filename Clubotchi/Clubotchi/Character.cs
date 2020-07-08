@@ -2,11 +2,12 @@
 
 namespace Clubotchi
 {
+    // A játékos álltal irányított karater
     internal abstract class Character
     {
-        public string name { set; get; }
-        public RacesEnum race { set; get; }
-        public List<Action> actions { set; get; }
+        public string name { set; get; }        // A karakter neve
+        public RacesEnum race { set; get; }     // A karakter fajtája
+        public List<Action> actions { set; get; }   // A karakter álltal végrehajtható akciók
 
         protected int hunger { set; get; }
         protected int fatigue { set; get; }
@@ -20,6 +21,7 @@ namespace Clubotchi
         {
             this.name = name;
         }
+        //Kiírja a felhasználónakm hogy milyen akciókat tud a karakter elvégezni
         public virtual void showAction()
         {
             var index = 0;
@@ -30,6 +32,8 @@ namespace Clubotchi
             }
             System.Console.WriteLine($"{index}: Exit Game");
         }
+        /* A kapott lista alapján elvégzi a benne megjelölt akciókat
+            Ha a játékos ki akar lépni a programbó 1-el tér vissza, egyébként 0-val*/
         public int doAction(List<int> actions) { 
             foreach(int actionIndex in actions)
             {
@@ -45,13 +49,9 @@ namespace Clubotchi
             report();
             return 0;
         }
-        public void copy(Character character)
-        {
-            this.hunger = character.hunger;
-            this.fatigue = character.fatigue;
-            this.boredome = character.boredome;
-        }
+        // A karakter jelentést tesz a felhasználónak az állapotáról
         public abstract void report();
+        // A karakter szól a felhasználónak ha olyan akciót akar választani amit a karakter nem képes elvégezni
         public abstract void error(int number);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Clubotchi
 {
+    //Az karakterek álltal végrehajtható akciókat reprezentáló osztály
     internal class Action
     {
         public string name { set; get; }

@@ -6,6 +6,12 @@ using System.Text.Json;
 
 namespace Clubotchi
 {
+    /* Ennek az osztálynak az a felelősége hogy a SavedAction.json-ból 
+     * kiolvassa az éppen aktuális karakter álltal végreajtható akciókat
+     * Azért döntöttem úgy hogy az akciókat külön fáljban tároom, mert nem
+     * különböznek annyira hogy külön osztályt vagy metódust kapjanak és így
+     * a későbbiekben könnyen bővíthetőek több különböző akcióval.
+     */
     class Serializer
     {
         public List<Action> actions(RacesEnum race) 
